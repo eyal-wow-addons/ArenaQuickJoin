@@ -106,7 +106,7 @@ frame:SetScript("OnEvent", function(self, eventName, ...)
         SetGroupSize(joinButton)
 
         do
-            local NO_OP_BUTTON = CreateFrame("Button")
+            local NO_OP_BUTTON = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate")
             hooksecurefunc("ConquestFrame_SelectButton", function(button)
                 if ConquestJoinButton:IsEnabled() then
                     joinButton:SetFrameRef("SelectedButton", button)
