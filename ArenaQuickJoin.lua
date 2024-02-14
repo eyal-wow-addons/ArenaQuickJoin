@@ -117,10 +117,7 @@ frame:SetScript("OnEvent", function(self, eventName, ...)
         end
 
         SecureHandlerWrapScript(joinButton, "OnClick", joinButton, [[
-            local result = SecureCmdOptionParse("[mod:shift]1;[mod:ctrl]2;[mod:alt]3;0")
-            result = tonumber(result)
-
-            if result == 1 then
+            if IsShiftKeyDown() then
                 self:SetAttribute("macrotext", "")
                 return
             end
@@ -128,9 +125,9 @@ frame:SetScript("OnEvent", function(self, eventName, ...)
             local SelectedButton = self:GetFrameRef("SelectedButton")
             local GroupSize = self:GetFrameRef("GroupSize")
 
-            if result == 3 then
+            if IsAltKeyDown() then
                 self:SetAttribute("macrotext", "/click LFDMicroButton\n/click PVEFrameTab2\n/click PVPQueueFrameCategoryButton1")
-            elseif GroupSize ~= SelectedButton or result == 2 then
+            elseif GroupSize ~= SelectedButton or IsControlKeyDown() then
                 self:SetAttribute("macrotext", "/click LFDMicroButton\n/click PVEFrameTab2\n/click PVPQueueFrameCategoryButton2")
             else
                 self:SetAttribute("macrotext", "/click ConquestJoinButton")
