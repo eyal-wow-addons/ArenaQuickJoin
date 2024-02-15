@@ -260,7 +260,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                     anchor = anchor .. "CURSOR"
                 end
 
-                GameTooltip:SetOwner(joinMacroButton, anchor)
+                GameTooltip:SetOwner(self, anchor)
 
                 if not isMacroButtonConfigured then
                     ShowTooltipWelcomeInfo()
