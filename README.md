@@ -12,6 +12,7 @@ This tiny addon tackles a frequent problem associated with macros similar to thi
 
 ## Features:
 
+- **Bindable Button:** The button can be binded by going to Options -> Keybindings -> ArenaQuickJoin.
 - **Draggable Button:** Easily move the button around by holding the Shift modifier.
 - **Quick Access:** Open the Rated tab by holding the Ctrl modifier and the Quick Match tab by holding the Alt modifier.
 - **Combat and Instances:** The button grays out during combat and remains hidden inside instances.
