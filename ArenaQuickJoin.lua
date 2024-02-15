@@ -1,3 +1,5 @@
+local addonName, addon = ...
+
 if UnitLevel("player") < GetMaxLevelForPlayerExpansion() then return end
 
 local frame = CreateFrame("Frame")
@@ -57,6 +59,13 @@ frame:SetScript("OnEvent", function(self, eventName, ...)
         joinMacroButton:SetTexture("achievement_bg_killxenemies_generalsroom")
         joinMacroButton:SetAttribute("type", "macro")
 
+        local dragged = function()
+            if not IsShiftKeyDown() then
+                return
+            end
+            GameTooltip:Hide()
+        end
+
         joinMacroButton:HookScript("OnClick", function(self)
             local _, isLoaded = C_AddOns.IsAddOnLoaded(PVPUI_ADDON_NAME)
             if not isLoaded then
@@ -68,13 +77,47 @@ frame:SetScript("OnEvent", function(self, eventName, ...)
             if not IsShiftKeyDown() then
                 return
             end
+            self:SetScript("OnUpdate", dragged)
             self:StartMoving()
         end)
         
         joinMacroButton:SetScript("OnDragStop", function(self)
             local point, _, relpoint, x, y = self:GetPoint()
             ArenaQuickJoinDB["Position"] = { point, relpoint, x, y }
+            self:SetScript("OnUpdate", nil)
             self:StopMovingOrSizing()
+        end)
+
+        joinMacroButton:SetScript("OnEnter", function(self)
+            local centerX, centerY = self:GetCenter()
+            local screenWidth, screenHeight = GetScreenWidth()/2, GetScreenHeight()/2
+            local anchor = "ANCHOR_"
+
+            if centerX > screenWidth and centerY > screenHeight then
+                anchor = anchor .. "BOTTOMLEFT"
+            elseif centerX <= screenWidth and centerY > screenHeight then
+                anchor = anchor .. "BOTTOMRIGHT"
+            elseif centerX > screenWidth and centerY <= screenHeight then
+                anchor = anchor .. "LEFT"
+            elseif centerX <= screenWidth and centerY <= screenHeight then
+                anchor = anchor .. "RIGHT"
+            else
+                anchor = anchor .. "CURSOR"
+            end
+
+            GameTooltip:SetOwner(joinMacroButton, anchor)
+
+            GameTooltip:AddLine(addonName)
+            GameTooltip:AddLine(" ")
+            GameTooltip:AddLine("To move the button " .. BLUE_FONT_COLOR:WrapTextInColorCode("Shift + Click") .. ".")
+            GameTooltip:AddLine("To open the PvP Rated Frame " .. BLUE_FONT_COLOR:WrapTextInColorCode("Ctrl + Click") .. ".")
+            GameTooltip:AddLine("To open the PvP Quick Match " .. BLUE_FONT_COLOR:WrapTextInColorCode("Alt + Click") .. ".")
+
+            GameTooltip:Show()
+        end)
+
+        joinMacroButton:SetScript("OnLeave", function(self)
+            GameTooltip:Hide()
         end)
 
         do
