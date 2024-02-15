@@ -95,13 +95,14 @@ frame:SetScript("OnEvent", function(self, eventName, ...)
             frame:RegisterEvent("MODIFIER_STATE_CHANGED")
 
             setGroupSize = function(button)
-                if GetNumSubgroupMembers(1) == 0 then
+                local numMembers = GetNumSubgroupMembers(1)
+                if numMembers == 0 then
                     button:SetFrameRef("GroupSize", ConquestFrame.RatedSoloShuffle)
-                elseif GetNumSubgroupMembers(1) == 1 then
+                elseif numMembers == 1 then
                     button:SetFrameRef("GroupSize", ConquestFrame.Arena2v2)
-                elseif GetNumSubgroupMembers(1) == 2 then
+                elseif numMembers == 2 then
                     button:SetFrameRef("GroupSize", ConquestFrame.Arena3v3)
-                else
+                elseif numMembers == CONQUEST_SIZES[4] - 1 then
                     button:SetFrameRef("GroupSize", ConquestFrame.RatedBG)
                 end
             end
