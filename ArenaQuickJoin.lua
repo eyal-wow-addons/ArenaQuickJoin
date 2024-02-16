@@ -4,6 +4,7 @@ if UnitLevel("player") < GetMaxLevelForPlayerExpansion() then return end
 
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("PLAYER_REGEN_DISABLED")
 frame:RegisterEvent("PLAYER_REGEN_ENABLED")
 frame:RegisterEvent("ADDON_LOADED")
@@ -51,20 +52,22 @@ local function CreateButton(buttonName)
     button:RegisterForDrag("LeftButton")
     button:RegisterForClicks('AnyUp', 'AnyDown')
 
-    function button:EnableWithStyle(style)
-        self:Enable()
+    function button:Active(style)
         if style == "show" then
             self:SetAlpha(1)
         elseif style == "normal" then
+            -- NOTE: Can't be called during combat
+            self:Enable()
             self.icon:SetDesaturated(false)
         end
     end
 
-    function button:DisableWithStyle(style)
-        self:Disable()
+    function button:Inactive(style)
         if style == "hide" then
             self:SetAlpha(0)
         elseif style == "grayout" then
+            -- NOTE: Can't be called during combat
+            self:Disable()
             self.icon:SetDesaturated(true)
         end
     end
@@ -183,7 +186,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                     GameTooltip:Hide()
 
                     if joinMacroButton:IsEnabled() then
-                        joinMacroButton:DisableWithStyle("grayout")
+                        joinMacroButton:Inactive("grayout")
                     end
 
                     if not isLoaded then
@@ -197,7 +200,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                         initAddonHandle = nil
                     end
                     initAddon = nil
-                    joinMacroButton:EnableWithStyle("normal")
+                    joinMacroButton:Active("normal")
                 end
             end
 
@@ -285,7 +288,6 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
         end
 
         configureMacroButton = function(self)
-            frame:RegisterEvent("PLAYER_ENTERING_WORLD")
             frame:RegisterEvent("GROUP_ROSTER_UPDATE")
             frame:RegisterEvent("MODIFIER_STATE_CHANGED")
 
@@ -339,17 +341,17 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
         joinMacroButton:SetFrameRef("GroupSizeButton", GetGroupSizeButton())
     elseif eventName == "PLAYER_ENTERING_WORLD" then
         if IsInInstance() then
-            joinMacroButton:DisableWithStyle("hide")
+            joinMacroButton:Inactive("hide")
         else
-            joinMacroButton:EnableWithStyle("show")
+            joinMacroButton:Active("show")
         end
     elseif eventName == "PLAYER_REGEN_DISABLED" then
-        joinMacroButton:DisableWithStyle("grayout")
+        joinMacroButton:Inactive("grayout")
     elseif eventName == "PLAYER_REGEN_ENABLED" then
         if configureMacroButton then 
             configureMacroButton(joinMacroButton)
         end
-        joinMacroButton:EnableWithStyle("normal")
+        joinMacroButton:Active("normal")
     elseif eventName == "MODIFIER_STATE_CHANGED" then
         local key, down = ...
         if down == 1 and (key == "LALT" or key == "RALT") then
