@@ -127,7 +127,7 @@ local function ShowTooltipStateInfo(selectedBracketButton)
 
     if IsShiftKeyDown() then
         GameTooltip:AddLine(L["Move the button."])
-    elseif IsModifierKeyDown() and not isFrameVisible then
+    elseif (IsControlKeyDown() or IsAltKeyDown()) and not isFrameVisible then
         if IsControlKeyDown() then
             GameTooltip:AddLine(L["Open PvP Rated tab."])
         elseif IsAltKeyDown() then
