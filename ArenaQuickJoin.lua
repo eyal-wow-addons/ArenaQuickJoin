@@ -1,6 +1,9 @@
 local addonName, addon = ...
 local L = addon.L
 
+_G["BINDING_HEADER_ARENAQUICKJOIN"] = addonName
+_G["BINDING_NAME_CLICK ArenaQuickJoinMacroButton:LeftButton"] = BATTLEFIELD_JOIN
+
 if UnitLevel("player") < GetMaxLevelForPlayerExpansion() then return end
 
 local frame = CreateFrame("Frame")
@@ -10,14 +13,9 @@ frame:RegisterEvent("PLAYER_REGEN_DISABLED")
 frame:RegisterEvent("PLAYER_REGEN_ENABLED")
 frame:RegisterEvent("ADDON_LOADED")
 
-local TOOLTIP_LABEL = addonName .. " (%s)"
-
-_G["BINDING_HEADER_ARENAQUICKJOIN"] = addonName
-_G["BINDING_NAME_CLICK ArenaQuickJoinMacroButton:LeftButton"] = BATTLEFIELD_JOIN
-
+local TOOLTIP_TITLE = addonName .. " (%s)"
 local PVPUI_ADDON_NAME = "Blizzard_PVPUI"
 
-local _G = _G
 local GameTooltip = GameTooltip
 local NewTicker = C_Timer.NewTicker
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded
@@ -98,7 +96,7 @@ local function AddTooltipTitle()
     local key  = GetBindingKey("CLICK ArenaQuickJoinMacroButton:LeftButton")
 
     if key then
-        GameTooltip:AddLine(TOOLTIP_LABEL:format(key))
+        GameTooltip:AddLine(TOOLTIP_TITLE:format(key))
     else
         GameTooltip:AddLine(addonName)
     end
