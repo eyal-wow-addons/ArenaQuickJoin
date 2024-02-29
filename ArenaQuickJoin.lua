@@ -1,4 +1,5 @@
 local addonName, addon = ...
+local L = addon.L
 
 if UnitLevel("player") < GetMaxLevelForPlayerExpansion() then return end
 
@@ -10,17 +11,6 @@ frame:RegisterEvent("PLAYER_REGEN_ENABLED")
 frame:RegisterEvent("ADDON_LOADED")
 
 local TOOLTIP_LABEL = addonName .. " (%s)"
-local TOOLTIP_WELCOME_LINE1 = "To set the button click once,\nand then wait for it to be enabled to queue."
-local TOOLTIP_WELCOME_LINE2 = "To move the button %s."
-local TOOLTIP_WELCOME_LINE3 = "To open the PvP Rated tab %s."
-local TOOLTIP_WELCOME_LINE4 = "To open the PvP Quick Match tab %s."
-local TOOLTIP_MOVE_BUTTON = "Move the button."
-local TOOLTIP_OPEN_PVP_RATED_TAB = "Open PvP Rated tab."
-local TOOLTIP_OPEN_PVP_QUICK_MATCH = "Open the PvP Quick Match tab."
-local TOOLTIP_CLOSE_LFG_FRAME = "Close the " .. DUNGEONS_BUTTON .. " frame."
-local TOOLTIP_BRACKET_MISMATCH = "Click to open the PvP Rated tab, \nto select a bracket that matches your group size."
-local TOOLTIP_JOIN_BUTTON_DISABLED = "Cannot join the selected bracket. The '" .. BATTLEFIELD_JOIN .. "' button is disabled."
-local TOOLTIP_CLICK_TO_QUEUE = "Click to queue to %s."
 
 _G["BINDING_HEADER_ARENAQUICKJOIN"] = addonName
 _G["BINDING_NAME_CLICK ArenaQuickJoinMacroButton:LeftButton"] = BATTLEFIELD_JOIN
@@ -121,11 +111,11 @@ local function ShowTooltipWelcomeInfo()
 
     AddTooltipTitle()
 
-    GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(TOOLTIP_WELCOME_LINE1))
+    GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(L["To set the button click once,\nand then wait for it to be enabled to queue."]))
     GameTooltip:AddLine(" ")
-    GameTooltip:AddLine(TOOLTIP_WELCOME_LINE2:format(BLUE_FONT_COLOR:WrapTextInColorCode("Shift + Click")))
-    GameTooltip:AddLine(TOOLTIP_WELCOME_LINE3:format(BLUE_FONT_COLOR:WrapTextInColorCode("Ctrl + Click")))
-    GameTooltip:AddLine(TOOLTIP_WELCOME_LINE4:format(BLUE_FONT_COLOR:WrapTextInColorCode("Alt + Click")))
+    GameTooltip:AddLine(L["To move the button %s."]:format(BLUE_FONT_COLOR:WrapTextInColorCode("Shift + Click")))
+    GameTooltip:AddLine(L["To open the PvP Rated tab %s."]:format(BLUE_FONT_COLOR:WrapTextInColorCode("Ctrl + Click")))
+    GameTooltip:AddLine(L["To open the PvP Quick Match tab %s."]:format(BLUE_FONT_COLOR:WrapTextInColorCode("Alt + Click")))
     GameTooltip:Show()
 end
 
@@ -138,25 +128,25 @@ local function ShowTooltipStateInfo(selectedBracketButton)
     local groupSizeButton = GetGroupSizeButton()
 
     if IsShiftKeyDown() then
-        GameTooltip:AddLine(TOOLTIP_MOVE_BUTTON)
+        GameTooltip:AddLine(L["Move the button."])
     elseif IsModifierKeyDown() and not isFrameVisible then
         if IsControlKeyDown() then
-            GameTooltip:AddLine(TOOLTIP_OPEN_PVP_RATED_TAB)
+            GameTooltip:AddLine(L["Open PvP Rated tab."])
         elseif IsAltKeyDown() then
-            GameTooltip:AddLine(TOOLTIP_OPEN_PVP_QUICK_MATCH)
+            GameTooltip:AddLine(L["Open the PvP Quick Match tab."])
         end
     elseif isFrameVisible then
-        GameTooltip:AddLine(TOOLTIP_CLOSE_LFG_FRAME)
+        GameTooltip:AddLine(L["Close the %s frame."]:format(DUNGEONS_BUTTON))
     elseif groupSizeButton ~= selectedBracketButton then
         if ConquestJoinButton:IsEnabled() then
-            GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(TOOLTIP_BRACKET_MISMATCH))
+            GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(L["Click to open the PvP Rated tab, \nto select a bracket that matches your group size."]))
         else
-            GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(TOOLTIP_JOIN_BUTTON_DISABLED))
+            GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(L["Cannot join the selected bracket. The %s button is disabled."]:format(BATTLEFIELD_JOIN)))
         end
     else
         local bracketName = GetSelectedBracketName(selectedBracketButton)
         if bracketName then
-            GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(TOOLTIP_CLICK_TO_QUEUE:format(BLUE_FONT_COLOR:WrapTextInColorCode(bracketName))))
+            GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(L["Click to queue to %s."]:format(BLUE_FONT_COLOR:WrapTextInColorCode(bracketName))))
         end
     end
 

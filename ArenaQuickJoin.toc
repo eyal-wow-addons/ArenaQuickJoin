@@ -11,4 +11,6 @@
 
 ## SavedVariables: ArenaQuickJoinDB
 
+Locales\enUS.lua
+
 ArenaQuickJoin.lua
