@@ -20,21 +20,21 @@ local TANK_TEXTURE_SETTINGS = {
     width = 20,
     height = 20,
     verticalOffset = 3,
-    margin = { right = 5, bottom = 5 },
+    margin = { left = 5, right = 5, top = 10 },
 }
 
 local HEALER_TEXTURE_SETTINGS = {
     width = 20,
     height = 20,
     verticalOffset = 3,
-    margin = { right = 5, bottom = 5 },
+    margin = { left = 5, right = 5, bottom = 10 },
 }
 
 local DAMAGER_TEXTURE_SETTINGS = {
     width = 20,
     height = 20,
     verticalOffset = 3,
-    margin = { right = 5, bottom = 5 },
+    margin = { left = 5, right = 5 },
 }
 
 local TANK, HEALER, DAMAGE = TANK, HEALER, DAMAGE
@@ -135,6 +135,7 @@ local function AddTooltipHeader()
     end
     
     GameTooltip:AddLine(" ")
+    GameTooltip_AddHighlightLine(GameTooltip, L["Selected PvP Roles:"])
 
     local tank, healer, dps = GetPVPRoles()
 

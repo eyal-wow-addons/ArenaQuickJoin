@@ -2,6 +2,7 @@ local _, addon = ...
 local L = {}
 addon.L = L
 
+L["Selected PvP Roles:"] = "Selected PvP Roles:"
 L["To set the button click once,\nand then wait for it to be enabled to queue."] = "To set the button click once,\nand then wait for it to be enabled to queue."
 L["To move the button %s."] = "To move the button %s."
 L["To open the PvP Rated tab %s."] = "To open the PvP Rated tab %s."
