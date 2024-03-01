@@ -16,16 +16,39 @@ frame:RegisterEvent("ADDON_LOADED")
 local TOOLTIP_TITLE = addonName .. " (%s)"
 local PVPUI_ADDON_NAME = "Blizzard_PVPUI"
 
+local TANK_TEXTURE_SETTINGS = {
+    width = 20,
+    height = 20,
+    verticalOffset = 3,
+    margin = { right = 5, bottom = 5 },
+}
+
+local HEALER_TEXTURE_SETTINGS = {
+    width = 20,
+    height = 20,
+    verticalOffset = 3,
+    margin = { right = 5, bottom = 5 },
+}
+
+local DAMAGER_TEXTURE_SETTINGS = {
+    width = 20,
+    height = 20,
+    verticalOffset = 3,
+    margin = { right = 5, bottom = 5 },
+}
+
+local TANK, HEALER, DAMAGE = TANK, HEALER, DAMAGE
+
 local GameTooltip = GameTooltip
 local NewTicker = C_Timer.NewTicker
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded
 local UIParentLoadAddOn = UIParentLoadAddOn
 local InCombatLockdown = InCombatLockdown
 local UnitAffectingCombat = UnitAffectingCombat
-local IsModifierKeyDown = IsModifierKeyDown
 local IsShiftKeyDown = IsShiftKeyDown
 local IsControlKeyDown = IsControlKeyDown
 local IsAltKeyDown = IsAltKeyDown
+local GetPVPRoles = GetPVPRoles
 
 local function InCombat()
     return InCombatLockdown() or UnitAffectingCombat("player")
@@ -92,7 +115,17 @@ function GetSelectedBracketName(selectedBracketButton)
     end
 end
 
-local function AddTooltipTitle()
+local function SetTooltipPvPRole(roleEnabled, textureSettings, label)
+    if roleEnabled then
+        textureSettings.desaturation = 0
+        return GREEN_FONT_COLOR:WrapTextInColorCode(label)
+    else
+        textureSettings.desaturation = 1
+        return GRAY_FONT_COLOR:WrapTextInColorCode(label)
+    end
+end
+
+local function AddTooltipHeader()
     local key  = GetBindingKey("CLICK ArenaQuickJoinMacroButton:LeftButton")
 
     if key then
@@ -100,6 +133,21 @@ local function AddTooltipTitle()
     else
         GameTooltip:AddLine(addonName)
     end
+    
+    GameTooltip:AddLine(" ")
+
+    local tank, healer, dps = GetPVPRoles()
+
+    local tankLabel = SetTooltipPvPRole(tank, TANK_TEXTURE_SETTINGS, TANK)
+    local healerLabel = SetTooltipPvPRole(healer, HEALER_TEXTURE_SETTINGS, HEALER)
+    local dpsLabel = SetTooltipPvPRole(dps, DAMAGER_TEXTURE_SETTINGS, DAMAGE)
+
+    GameTooltip:AddLine(tankLabel)
+    GameTooltip:AddTexture(GetMicroIconForRole("TANK"), TANK_TEXTURE_SETTINGS)
+    GameTooltip:AddLine(healerLabel)
+    GameTooltip:AddTexture(GetMicroIconForRole("HEALER"), HEALER_TEXTURE_SETTINGS)
+    GameTooltip:AddLine(dpsLabel)
+    GameTooltip:AddTexture(GetMicroIconForRole("DAMAGER"), DAMAGER_TEXTURE_SETTINGS)
 
     GameTooltip:AddLine(" ")
 end
@@ -107,7 +155,7 @@ end
 local function ShowTooltipWelcomeInfo()
     GameTooltip:ClearLines()
 
-    AddTooltipTitle()
+    AddTooltipHeader()
 
     GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(L["To set the button click once,\nand then wait for it to be enabled to queue."]))
     GameTooltip:AddLine(" ")
@@ -120,7 +168,7 @@ end
 local function ShowTooltipStateInfo(selectedBracketButton)
     GameTooltip:ClearLines()
 
-    AddTooltipTitle()
+    AddTooltipHeader()
 
     local isFrameVisible = PVEFrame:IsVisible()
     local groupSizeButton = GetGroupSizeButton()
