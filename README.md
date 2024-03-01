@@ -2,7 +2,7 @@
 
 Adds a convenient button that makes joining Arena/RBG matches hassle-free.
 
-![ArenaQuickJoin](Screenshots/Small-Button.png)
+![ArenaQuickJoin](Screenshots/WelcomeTooltip.png)
 
 ## Overview:
 
