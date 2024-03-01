@@ -90,7 +90,7 @@ local function CreateButton(buttonName)
     return button
 end
 
-function GetGroupSizeButton()
+local function GetGroupSizeButton()
     local numMembers = GetNumSubgroupMembers(1)
     if numMembers == 0 then
         return ConquestFrame.RatedSoloShuffle
@@ -103,7 +103,7 @@ function GetGroupSizeButton()
     end
 end
 
-function GetSelectedBracketName(selectedBracketButton)
+local function GetSelectedBracketName(selectedBracketButton)
     if selectedBracketButton == ConquestFrame.RatedSoloShuffle then
         return PVP_RATED_SOLO_SHUFFLE
     elseif selectedBracketButton == ConquestFrame.Arena2v2 then
