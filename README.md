@@ -18,4 +18,4 @@ This tiny addon tackles a frequent problem associated with macros similar to thi
 - **Combat and Instances:** The button grays out during combat and remains hidden inside instances.
   
 ## Known Issue:
-When you open the group finder while in combat and try to select one of the rated brackets it wouldn't get tracked by the addon due to in-combat restrictions and how the secure environment works so in short it's a Blizzard thing.
+When you open the Group Finder (LFG) while in combat and try to select one of the rated brackets it wouldn't get tracked by the addon due to in-combat restrictions and how the secure environment works so in short it's a Blizzard thing but the solution is quite simple, simply click on the button (when it's enabled) to open the LFG and select the desired bracket.
