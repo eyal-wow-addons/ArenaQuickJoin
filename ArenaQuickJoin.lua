@@ -67,7 +67,7 @@ local function CreateButton(buttonName)
         if style == "show" then
             self:SetAlpha(1)
         elseif style == "normal" then
-            -- NOTE: Can't be called during combat
+            -- NOTE: Can't be called during combat.
             self:Enable()
             self.icon:SetDesaturated(false)
         end
@@ -77,7 +77,7 @@ local function CreateButton(buttonName)
         if style == "hide" then
             self:SetAlpha(0)
         elseif style == "grayout" then
-            -- NOTE: Can't be called during combat
+            -- NOTE: Can't be called during combat.
             self:Disable()
             self.icon:SetDesaturated(true)
         end
