@@ -92,14 +92,14 @@ end
 
 local function GetGroupSizeButton()
     local numMembers = GetNumSubgroupMembers(1)
-    if numMembers == 0 then
-        return ConquestFrame.RatedSoloShuffle
-    elseif numMembers == 1 then
-        return ConquestFrame.Arena2v2
-    elseif numMembers == 2 then
-        return ConquestFrame.Arena3v3
-    elseif numMembers == CONQUEST_SIZES[4] - 1 then
+    if numMembers >= CONQUEST_SIZES[4] - 1 then
         return ConquestFrame.RatedBG
+    elseif numMembers >= 2 then
+        return ConquestFrame.Arena3v3
+    elseif numMembers >= 1 then
+        return ConquestFrame.Arena2v2
+    else
+        return ConquestFrame.RatedSoloShuffle
     end
 end
 
