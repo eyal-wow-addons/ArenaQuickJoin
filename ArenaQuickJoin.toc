@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 
 ## Title: Arena|cff40a5f7QuickJoin|r
 ## Notes: Adds a convenient button that makes joining Arena/RBG matches hassle-free.
